@@ -1,0 +1,343 @@
+/* =========================================================================
+   DESIGN TOKENS
+   Keeping colors/fonts as CSS variables means if you want to re-theme the
+   whole site later, you only change values here — not hunt through every
+   rule. This is one of the most useful CSS habits to build early.
+   ========================================================================= */
+:root {
+  --paper: #F3EEDF;        /* aged index-card cream */
+  --paper-line: #DBD2B8;   /* faint rule lines on the card */
+  --ink: #1B2A44;          /* deep navy — like government-document ink */
+  --ink-soft: #4B5A73;
+  --accent: #A3312A;       /* muted flag red, used sparingly */
+  --gold: #A9822E;         /* star / seal accent */
+  --card-shadow: 0 12px 30px rgba(27, 42, 68, 0.18);
+  --radius: 10px;
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "Inter", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 0%, #2b3d5f 0%, transparent 45%),
+    var(--ink);
+  min-height: 100vh;
+}
+
+/* =========================================================================
+   HEADER
+   ========================================================================= */
+.site-header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 2.25rem 1.5rem 2rem;
+  border-bottom: 3px solid var(--gold);
+}
+.header-inner { max-width: 880px; margin: 0 auto; }
+.brand { display: flex; align-items: flex-start; gap: 0.9rem; }
+.brand-star { color: var(--gold); font-size: 1.6rem; line-height: 1; margin-top: 0.35rem; }
+.brand h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.9rem;
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.01em;
+}
+.tagline { margin: 0; color: #C9D2E3; font-size: 0.95rem; }
+
+/* =========================================================================
+   MODE SWITCH (Flashcards / Quiz tabs)
+   ========================================================================= */
+.mode-switch {
+  max-width: 880px;
+  margin: -1.1rem auto 0;
+  padding: 0 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+.mode-btn {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.4rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.mode-btn:hover { transform: translateY(-1px); }
+.mode-btn.active { background: var(--accent); color: white; }
+.mode-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.controls {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--card-shadow);
+}
+.control { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }
+.control select {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--paper-line);
+  background: white;
+  color: var(--ink);
+}
+.control.checkbox { flex-direction: row; align-items: center; gap: 0.55rem; font-size: 0.9rem; }
+.control.checkbox input { width: 1.05rem; height: 1.05rem; }
+
+.mode-panel[hidden] { display: none; }
+
+/* =========================================================================
+   FLASHCARD MODE — the signature element.
+   The card looks like a physical index card: cream stock, a top "punch
+   hole" + red ribbon tab, faint ruled lines, and a 3D flip animation.
+   ========================================================================= */
+.deck-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--paper);
+  font-size: 0.9rem;
+  margin-bottom: 0.85rem;
+}
+.starred-flag {
+  color: var(--gold);
+  font-weight: 600;
+  background: rgba(169, 130, 46, 0.15);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.card-stage {
+  perspective: 1600px;
+  margin-bottom: 1.25rem;
+}
+
+.flip-card {
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 340px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+
+.flip-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 43px,
+      var(--paper-line) 43px,
+      var(--paper-line) 44px
+    ),
+    var(--paper);
+  box-shadow: var(--card-shadow);
+  padding: 2.75rem 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-y: auto;
+}
+/* red "ribbon tab" + punch hole at the top of the card, like a library card */
+.flip-card-face::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 64px; height: 18px;
+  background: var(--accent);
+  border-radius: 0 0 6px 6px;
+}
+.flip-card-face::after {
+  content: "";
+  position: absolute;
+  top: 7px; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.flip-card-back { transform: rotateY(180deg); }
+
+.card-eyebrow {
+  font-family: var(--serif);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+.card-text {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 1rem;
+}
+.card-hint {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+.card-answer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.card-answer-list li { margin-bottom: 0.4rem; }
+.card-answer-list li::before { content: "\2013\00A0"; color: var(--accent); font-weight: 700; }
+
+.deck-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.btn-secondary { background: var(--paper); color: var(--ink); }
+.btn-ghost { background: transparent; color: var(--paper); border: 1px solid rgba(243,238,223,0.4); }
+.btn-primary { background: var(--accent); color: white; }
+
+/* =========================================================================
+   QUIZ MODE
+   ========================================================================= */
+.quiz-card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 2rem 2rem 1.75rem;
+}
+#quizScore { font-weight: 600; }
+
+.quiz-options {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.quiz-option {
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--paper-line);
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--ink-soft); }
+.quiz-option:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.quiz-option:disabled { cursor: default; }
+
+.quiz-option.correct { background: #E4F0E3; border-color: #4C8A4C; }
+.quiz-option.incorrect { background: #F5E1DF; border-color: var(--accent); }
+
+.quiz-feedback {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.quiz-feedback.correct { color: #3A6B3A; }
+.quiz-feedback.incorrect { color: var(--accent); }
+
+.quiz-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+
+.explanation {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  border-left: 3px solid var(--gold);
+  background: rgba(169, 130, 46, 0.08);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.explanation strong { color: var(--ink); }
+
+/* =========================================================================
+   FOOTER
+   ========================================================================= */
+.site-footer {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  color: #9AA6BC;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* =========================================================================
+   RESPONSIVE
+   ========================================================================= */
+@media (max-width: 560px) {
+  .brand h1 { font-size: 1.5rem; }
+  .flip-card { height: 300px; }
+  .card-text { font-size: 1.15rem; }
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner { transition: none; }
+}
