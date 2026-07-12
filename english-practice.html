@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Test Practice &mdash; Civics Test Practice</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH69FR63HZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DH69FR63HZ');
+  </script>
+</head>
+<body>
+
+  <div id="appShell" class="view">
+
+    <header class="app-topbar">
+      <a class="icon-btn" href="index.html">&larr; Home</a>
+
+      <div class="topbar-controls">
+        <select id="listFilter">
+          <option value="reading">Reading Vocabulary</option>
+          <option value="writing">Writing Vocabulary</option>
+        </select>
+        <select id="categoryFilter"></select>
+      </div>
+    </header>
+
+    <p class="page-intro">
+      These are the official vocabulary words USCIS uses to build the English
+      reading and writing test sentences (from the M-1122 pocket study
+      guide). During the real test, a USCIS officer shows or reads you a
+      full sentence built from words like these &mdash; practicing the
+      individual words here builds recognition for the real thing.
+    </p>
+
+    <div class="static-card" id="vocabCard">
+      <span class="tag" id="vocabTag">WORD 01/64</span>
+      <button class="speak-btn" id="vocabSpeakBtn" type="button" aria-label="Read this aloud">&#128266;</button>
+      <p class="big-text" id="vocabWord">Loading&hellip;</p>
+      <span class="eyebrow" id="vocabCategory"></span>
+    </div>
+
+    <div class="deck-controls">
+      <button id="prevWord" class="btn btn-gray nav-btn" type="button">&larr; Previous</button>
+      <button id="shuffleWords" class="btn btn-outline" type="button">Shuffle</button>
+      <button id="nextWord" class="btn btn-gray nav-btn" type="button">Next &rarr;</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <nav class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="faq.html">FAQ</a>
+      <a href="test-format.html">Test Format</a>
+      <a href="process.html">Naturalization Process</a>
+      <a href="resources.html">Official Resources</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <p>Vocabulary lists are from USCIS Form M-1122 (rev. 07/2024), &ldquo;Preparing for the Naturalization Test: A Pocket Study Guide.&rdquo;</p>
+  </footer>
+
+  <script src="english-vocab.js"></script>
+  <script src="english-practice.js"></script>
+</body>
+</html>

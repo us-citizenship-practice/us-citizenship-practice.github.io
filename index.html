@@ -5,121 +5,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Civics Test Practice</title>
 
-  <!-- Google Fonts: a serif for headings (feels official, like a real
-       government document) and a clean sans-serif for body text -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Our own CSS file -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH69FR63HZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DH69FR63HZ');
+  </script>
 </head>
 <body>
 
-  <!-- ===================== HEADER ===================== -->
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="brand">
-        <span class="brand-star">&#9733;</span>
-        <div>
-          <h1>Civics Test Practice</h1>
-          <p class="tagline">Free study tool for the U.S. naturalization civics test &middot; 2025 version, 128 questions</p>
+  <!-- ============================================================
+       ONBOARDING — always shown first. Determines which test
+       version (2008 or 2025) and whether 65/20 applies, before
+       anything else is visible.
+       ============================================================ -->
+  <div id="onboardStep1" class="view onboard-view" hidden>
+    <div class="onboard-card">
+      <span class="onboard-eyebrow">Step 1 of 2</span>
+      <h1>A couple quick questions first</h1>
+
+      <label class="onboard-field">
+        <span>How old are you?</span>
+        <input type="number" id="ageInput" min="0" max="120" placeholder="e.g. 42" />
+      </label>
+
+      <label class="onboard-field">
+        <span>How many years have you been a lawful permanent resident (green card holder)?</span>
+        <input type="number" id="lprYearsInput" min="0" max="100" placeholder="e.g. 5" />
+      </label>
+
+      <div class="onboard-why">
+        <strong>Why we ask:</strong> If you're 65 or older and have been a permanent
+        resident for 20+ years, USCIS lets you study a shorter list of just 20
+        questions instead of the full test &mdash; this is called the &ldquo;65/20&rdquo; rule.
+      </div>
+
+      <p class="onboard-error" id="step1Error" hidden>Please fill in both fields.</p>
+      <button id="onboardNext1" class="btn btn-dark" type="button">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <div id="onboardStep2" class="view onboard-view" hidden>
+    <div class="onboard-card">
+      <span class="onboard-eyebrow">Step 2 of 2</span>
+      <h1>When did you file (or plan to file) Form N-400?</h1>
+
+      <label class="onboard-field">
+        <span>Filing date</span>
+        <input type="date" id="filingDateInput" />
+      </label>
+
+      <div class="onboard-why">
+        <strong>Why we ask:</strong> Your test version depends on your <em>filing</em>
+        date, not your interview date. If you filed before October 20, 2025,
+        you'll take the 2008 test (100 questions). On or after that date,
+        you'll take the 2025 test (128 questions).
+      </div>
+
+      <p class="onboard-error" id="step2Error" hidden>Please select a date.</p>
+      <button id="onboardNext2" class="btn btn-dark" type="button">Start Studying &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LANDING VIEW — shown after onboarding
+       ============================================================ -->
+  <div id="landingView" class="view">
+    <div class="landing-inner">
+      <div class="landing-copy">
+        <h1>Welcome to<br>Civics Test<br>Practice</h1>
+        <p class="landing-tagline">Free study tool for the U.S. naturalization civics test</p>
+        <div class="landing-buttons">
+          <button id="goFlashcards" class="btn btn-outline landing-btn" type="button">Flashcard View</button>
+          <button id="goQuiz" class="btn btn-outline landing-btn" type="button">Quiz View</button>
         </div>
       </div>
+
+      <!-- Your illustration, cropped from the file you provided -->
+      <img class="landing-art" src="landing-flags.png" alt="Illustration of hands holding American flags" />
     </div>
-  </header>
+  </div>
 
-  <!-- ===================== MODE SWITCHER ===================== -->
-  <nav class="mode-switch" aria-label="Study mode">
-    <button class="mode-btn active" data-mode="flashcards">Flashcards</button>
-    <button class="mode-btn" data-mode="quiz">Quiz</button>
-  </nav>
+  <!-- ============================================================
+       APP SHELL — everything else lives in here, hidden by default.
+       Only landingView OR appShell is visible at any time.
+       ============================================================ -->
+  <div id="appShell" class="view" hidden>
 
-  <main class="container">
+    <header class="app-topbar">
+      <button id="homeBtn" class="icon-btn" type="button">&larr; Home</button>
 
-    <!-- ---------- Shared filter bar ---------- -->
-    <section class="controls">
-      <label class="control">
-        <span>Category</span>
-        <select id="categoryFilter">
-          <option value="all">All categories</option>
-          <!-- filled in by JavaScript -->
-        </select>
-      </label>
-
-      <label class="control checkbox">
-        <input type="checkbox" id="starredOnly" />
-        <span>65/20 questions only (20 starred questions)</span>
-      </label>
-    </section>
-
-    <!-- ================= FLASHCARD MODE ================= -->
-    <section id="flashcardMode" class="mode-panel">
-
-      <div class="deck-status">
-        <span id="cardPosition">Card 1 of 128</span>
-        <span class="starred-flag" id="cardStarredFlag" hidden>&#9733; 65/20 question</span>
+      <div class="topbar-controls">
+        <span class="version-badge" id="versionBadge"></span>
+        <label class="pill-checkbox" id="sixtyFiveTwentyToggleWrap" hidden>
+          <input type="checkbox" id="sixtyFiveTwentyToggle" />
+          <span>Study 65/20 set only</span>
+        </label>
+        <select id="categoryFilter"></select>
       </div>
+    </header>
 
-      <div class="card-stage">
-        <button class="flip-card" id="flipCard" aria-label="Flip card to see the answer">
-          <div class="flip-card-inner">
+    <!-- ---------------- FLASHCARD MODE ----------------
+         A single static card. Clicking it swaps between the
+         question face and the answer face — no 3D flip. -->
+    <section id="flashcardMode" class="mode-panel" hidden>
 
-            <div class="flip-card-face flip-card-front">
-              <span class="card-eyebrow">Question</span>
-              <p class="card-text" id="questionText">Loading&hellip;</p>
-              <span class="card-hint">Tap the card to reveal the answer</span>
-            </div>
+      <div class="static-card" id="flashCard">
+        <div class="card-face" id="flashQuestionFace">
+          <span class="tag" id="cardTag">CARD 01/128</span>
+          <p class="big-text" id="questionText">Loading&hellip;</p>
+        </div>
 
-            <div class="flip-card-face flip-card-back">
-              <span class="card-eyebrow">Answer</span>
-              <ul class="card-answer-list" id="answerList"></ul>
-              <span class="card-hint">Tap the card to see the question again</span>
-            </div>
+        <div class="card-face" id="flashAnswerFace" hidden>
+          <span class="eyebrow">Answer</span>
+          <ul class="answer-list" id="answerList"></ul>
+        </div>
 
-          </div>
-        </button>
+        <button class="speak-btn" id="flashSpeakBtn"
+                type="button" aria-label="Read this aloud">&#128266;</button>
+        <button class="bookmark-btn" id="flashBookmarkBtn"
+                type="button" aria-label="Bookmark this question">&#9734;</button>
       </div>
 
       <div class="deck-controls">
-        <button id="prevCard" class="btn btn-secondary">&larr; Previous</button>
-        <button id="shuffleCards" class="btn btn-ghost">Shuffle deck</button>
-        <button id="nextCard" class="btn btn-secondary">Next &rarr;</button>
+        <button id="prevCard" class="btn btn-gray nav-btn" type="button">&larr; Previous</button>
+        <button id="shuffleCards" class="btn btn-outline" type="button">Shuffle</button>
+        <button id="nextCard" class="btn btn-gray nav-btn" type="button">Next &rarr;</button>
       </div>
     </section>
 
-    <!-- ================= QUIZ MODE ================= -->
+    <!-- ---------------- QUIZ MODE ----------------
+         Question card + an answer card with a typed-answer box.
+         Show Answer reveals the official answer BELOW the box. -->
     <section id="quizMode" class="mode-panel" hidden>
 
-      <div class="deck-status">
-        <span id="quizPosition">Question 1 of 128</span>
-        <span id="quizScore">Score: 0 / 0</span>
-      </div>
-
-      <div class="quiz-card">
-        <span class="card-eyebrow">Question</span>
-        <p class="card-text" id="quizQuestionText">Loading&hellip;</p>
-
-        <div class="quiz-options" id="quizOptions"></div>
-
-        <div class="quiz-feedback" id="quizFeedback" hidden></div>
-
-        <div class="quiz-actions">
-          <button id="explainBtn" class="btn btn-secondary" disabled>Explain</button>
-          <button id="nextQuizBtn" class="btn btn-primary" disabled>Next question &rarr;</button>
+      <div class="quiz-columns">
+        <div class="q-card">
+          <span class="tag" id="quizTag">QUESTION 01/128</span>
+          <button class="speak-btn" id="quizSpeakBtn" type="button" aria-label="Read the question aloud">&#128266;</button>
+          <button class="bookmark-btn" id="quizBookmarkBtn" type="button" aria-label="Bookmark this question">&#9734;</button>
+          <p class="big-text" id="quizQuestionText">Loading&hellip;</p>
         </div>
 
-        <div class="explanation" id="explanationBox" hidden></div>
+        <div class="a-card">
+          <span class="eyebrow">Answer</span>
+          <textarea id="userAnswerInput" class="answer-input" placeholder="Type your answer here&hellip;"></textarea>
+
+          <button id="showAnswerBtn" class="btn btn-gray" type="button">Show Answer</button>
+
+          <div class="answer-reveal" id="answerReveal" hidden>
+            <div class="answer-reveal-header">
+              <span class="eyebrow">Correct Answer</span>
+              <button class="speak-btn speak-btn-inline" id="answerSpeakBtn" type="button" aria-label="Read the answer aloud">&#128266;</button>
+            </div>
+            <ul id="correctAnswerList"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="deck-controls">
+        <button id="prevQuizBtn" class="btn btn-gray nav-btn" type="button">&larr; Previous</button>
+        <button id="shuffleQuizBtn" class="btn btn-outline" type="button">Shuffle</button>
+        <button id="nextQuizBtn" class="btn btn-gray nav-btn" type="button">Next &rarr;</button>
       </div>
     </section>
 
-  </main>
+    <!-- ---------------- COMPLETION VIEW ---------------- -->
+    <section id="completionView" class="mode-panel" hidden>
+      <div class="completion-inner">
+        <div class="completion-copy">
+          <div class="trophy" aria-hidden="true">&#127942;</div>
+          <h2>You just reviewed the entire question bank</h2>
+          <div class="completion-buttons">
+            <button id="reviewStarredBtn" class="btn btn-outline" type="button">Review Bookmarked Questions</button>
+            <button id="restartAllBtn" class="btn btn-gray" type="button">Study Again (All Questions)</button>
+          </div>
+          <p class="completion-note" id="completionNote"></p>
+        </div>
+
+        <svg class="completion-art" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g stroke="#111" stroke-width="2.5" stroke-linejoin="round">
+            <circle cx="130" cy="105" r="70" fill="#F3EEDF"/>
+            <path d="M130,35 l14,28 30,4 -22,21 5,30 -27,-14 -27,14 5,-30 -22,-21 30,-4 z" fill="#A9822E"/>
+            <path d="M108,160 l-18,60 24,-14 16,20 14,-58" fill="#A3312A"/>
+            <path d="M152,160 l18,60 -24,-14 -16,20 -14,-58" fill="#1B2A44"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+  </div>
 
   <footer class="site-footer">
-    <p>Questions and official answers are from USCIS Form M-1778 (09/25), the 2025 version of the civics test. This is an independent study tool and is not affiliated with USCIS or the U.S. government.</p>
+    <nav class="footer-links">
+      <a href="faq.html">FAQ</a>
+      <a href="test-format.html">Test Format</a>
+      <a href="process.html">Naturalization Process</a>
+      <a href="english-practice.html">English Test Practice</a>
+      <a href="resources.html">Official Resources</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <p>Questions and official answers are from USCIS Form M-1778 (09/25) and the 2008 civics test materials. This is an independent study tool and is not affiliated with USCIS or the U.S. government.</p>
   </footer>
 
-  <!-- Load order matters: data first, then the logic that uses it -->
-  <script src="data.js"></script>
+  <script src="data-2025.js"></script>
+  <script src="data-2008.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
