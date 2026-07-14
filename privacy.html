@@ -10,6 +10,12 @@
   <link rel="stylesheet" href="style.css" />
 
   <!-- Google Analytics (GA4) -->
+  <script>
+  // If you set the developer_mode flag in your console, tracking turns off completely
+  if (localStorage.getItem('developer_mode') === 'true') {
+    window['ga-disable-G-DH69FR63HZ'] = true; 
+  }
+  </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH69FR63HZ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
