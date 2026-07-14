@@ -19,9 +19,75 @@
 </head>
 <body>
 
-  <div class="content-page">
-    <a class="back-home" href="index.html">&larr; Back to Civics Test Practice</a>
+  <header class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-logo" href="index.html">
+        <img src="logo-icon.png" alt="" class="site-logo-icon" />
+        <span class="site-logo-text">Civics Test Practice</span>
+      </a>
 
+      <nav class="site-nav-links" id="siteNavLinks">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.studyTools">Study Tools</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html#flashcards" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.flashcards.title">Civics Flashcards</span>
+              <span class="nav-item-sub" data-i18n="nav.flashcards.sub">Master the questions with active recall</span>
+            </a>
+            <a href="index.html#quiz" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.quiz.title">Civics Quiz Mode</span>
+              <span class="nav-item-sub" data-i18n="nav.quiz.sub">Test your knowledge with mock exams</span>
+            </a>
+            <a href="english-practice.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.english.title">English Test Practice</span>
+              <span class="nav-item-sub" data-i18n="nav.english.sub">Practice official reading and writing vocabulary</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.resources">Resources &amp; Guides</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="process.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.process.title">Naturalization Process</span>
+              <span class="nav-item-sub" data-i18n="nav.process.sub">Step-by-step guide from N-400 to Oath</span>
+            </a>
+            <a href="test-format.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.testFormat.title">Test Format &amp; Rules</span>
+              <span class="nav-item-sub" data-i18n="nav.testFormat.sub">Understand passing scores, test formats, and exemptions</span>
+            </a>
+            <a href="resources.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.officialResources.title">Official USCIS Resources</span>
+              <span class="nav-item-sub" data-i18n="nav.officialResources.sub">Access official study booklets and materials</span>
+            </a>
+            <a href="faq.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.faq.title">FAQ</span>
+              <span class="nav-item-sub" data-i18n="nav.faq.sub">Quick answers to common citizenship test questions</span>
+            </a>
+          </div>
+        </div>
+
+        <a class="nav-simple-link" href="about.html" data-i18n="nav.about">About</a>
+      </nav>
+
+      <div class="site-nav-right">
+        <select id="languageSelect" class="lang-select" aria-label="Choose language">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+
+      <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="content-page">
     <h1>Official Resources</h1>
     <p class="updated-note">Last updated July 2026</p>
 
@@ -36,23 +102,13 @@
 
     <h2>Civics Test Study Materials</h2>
     <ul class="resource-list">
-      <li><a href="https://www.uscis.gov/citizenship/find-study-materials-and-resources/study-for-the-test" target="_blank" rel="noopener">Study for the Test</a> &mdash; USCIS's full library of free study materials for both the 2008 and 2025 civics tests.</li>
-      <li><a href="https://www.uscis.gov/sites/default/files/document/guides/M-1122.pdf" target="_blank" rel="noopener">Preparing for the Naturalization Test: A Pocket Study Guide (M-1122)</a> &mdash; the official pocket guide, including the English reading and writing vocabulary lists.</li>
-      <li><a href="https://www.uscis.gov/citizenship/civics-practice-test-2008" target="_blank" rel="noopener">2008 Civics Practice Test</a> &mdash; USCIS's own online practice tool (English and Spanish).</li>
-      <li><a href="https://www.uscis.gov/citizenship/find-study-materials-and-resources/study-for-the-test/100-civics-questions-and-answers-with-mp3-audio-english-version" target="_blank" rel="noopener">100 Civics Questions with MP3 Audio</a> &mdash; official audio of every 2008-version question and answer.</li>
-    </ul>
-
-    <h2>Other Languages</h2>
-    <p>USCIS publishes many study materials in Spanish, Chinese, Vietnamese, Korean, Tagalog, Arabic, and more. This site currently only has content in English, so if you'd like to study in another language, these official translations are the most reliable option:</p>
-    <ul class="resource-list">
-      <li><a href="https://www.uscis.gov/citizenship/find-study-materials-and-resources" target="_blank" rel="noopener">Find Study Materials and Resources</a> &mdash; filter by language on this page for translated guides and flash cards.</li>
+      <li><a href="https://www.uscis.gov/citizenship/find-study-materials-and-resources/study-for-the-test" target="_blank" rel="noopener">Study for the Test</a> &mdash; USCIS's full library of free study materials for both the 2008 and 2025 civics tests. USCIS also publishes many study materials in Spanish, Chinese, Vietnamese, Korean, Tagalog, Arabic, and more. </li>
     </ul>
 
     <h2>The Naturalization Process</h2>
     <ul class="resource-list">
       <li><a href="https://www.uscis.gov/citizenship/learn-about-citizenship/10-steps-to-naturalization" target="_blank" rel="noopener">10 Steps to Naturalization</a> &mdash; the official step-by-step overview (also summarized on our <a href="process.html">Process page</a>).</li>
-      <li><a href="https://www.uscis.gov/policy-manual/volume-12-part-e-chapter-2" target="_blank" rel="noopener">USCIS Policy Manual, Volume 12, Part E</a> &mdash; the authoritative source on English and civics testing rules.</li>
-      <li><a href="https://www.uscis.gov/natzguide" target="_blank" rel="noopener">A Guide to Naturalization</a> &mdash; a full overview of eligibility requirements and what to expect.</li>
+      <li><a href="https://www.uscis.gov/citizenship/learn-about-citizenship/the-naturalization-interview-and-test" target="_blank" rel="noopener">The Naturalization Interview and Test</a> &mdash; the authoritative source on English and civics testing rules.</li>
     </ul>
 
     <h2>Free Help</h2>
@@ -64,16 +120,13 @@
 
   <footer class="site-footer">
     <nav class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="faq.html">FAQ</a>
-      <a href="test-format.html">Test Format</a>
-      <a href="process.html">Naturalization Process</a>
-      <a href="english-practice.html">English Test Practice</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="contact.html">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
     </nav>
+    <p>Questions, official answers, and naturalization resources are compiled directly from the <a href="https://www.uscis.gov/citizenship" target="_blank" rel="noopener">USCIS website</a>. This is an independent educational and study tool and is not affiliated with USCIS or the U.S. government.</p>
   </footer>
 
+  <script src="i18n.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

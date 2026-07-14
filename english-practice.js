@@ -11,7 +11,6 @@ const categoryFilterEl = document.getElementById("categoryFilter");
 const vocabCardEl = document.getElementById("vocabCard");
 const vocabTagEl = document.getElementById("vocabTag");
 const vocabWordEl = document.getElementById("vocabWord");
-const vocabCategoryEl = document.getElementById("vocabCategory");
 const vocabSpeakBtn = document.getElementById("vocabSpeakBtn");
 const prevWordBtn = document.getElementById("prevWord");
 const nextWordBtn = document.getElementById("nextWord");
@@ -77,14 +76,12 @@ function applyFilters() {
 function render() {
   if (state.list.length === 0) {
     vocabWordEl.textContent = "No words match this filter.";
-    vocabTagEl.textContent = "WORD 0/0";
-    vocabCategoryEl.textContent = "";
+    vocabTagEl.textContent = "CARD 0/0";
     return;
   }
   const item = state.list[state.index];
   vocabWordEl.textContent = item.word;
-  vocabCategoryEl.textContent = `Category: ${item.category}`;
-  vocabTagEl.textContent = `WORD ${String(state.index + 1).padStart(2, "0")}/${state.list.length}`;
+  vocabTagEl.textContent = `CARD ${String(state.index + 1).padStart(2, "0")}/${state.list.length}`;
 }
 
 function goNext() {

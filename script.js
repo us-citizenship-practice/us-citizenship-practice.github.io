@@ -48,7 +48,6 @@ const flashAnswerFaceEl = document.getElementById("flashAnswerFace");
 const questionTextEl = document.getElementById("questionText");
 const answerListEl = document.getElementById("answerList");
 const cardTagEl = document.getElementById("cardTag");
-const flashBookmarkBtn = document.getElementById("flashBookmarkBtn");
 const flashSpeakBtn = document.getElementById("flashSpeakBtn");
 const prevCardBtn = document.getElementById("prevCard");
 const nextCardBtn = document.getElementById("nextCard");
@@ -123,6 +122,15 @@ const state = {
   quizRevealed: false,
 };
 
+// Small helper so dynamically-generated text (not static HTML) also
+// respects the selected language. TRANSLATIONS is defined in i18n.js,
+// loaded before this script runs any of these functions.
+function t(key) {
+  const lang = localStorage.getItem("civicsAppLanguage") || "en";
+  const dict = (typeof TRANSLATIONS !== "undefined" && TRANSLATIONS[lang]) || {};
+  return dict[key] || (typeof TRANSLATIONS !== "undefined" && TRANSLATIONS.en[key]) || key;
+}
+
 // ---------- Helpers ----------
 function shuffle(array) {
   const copy = [...array];
@@ -158,6 +166,15 @@ function getFilteredQuestions() {
   });
 }
 
+// Small helper so dynamically-generated text (not present in the HTML,
+// so data-i18n can't tag it) still respects the selected language.
+// TRANSLATIONS is defined globally in i18n.js, loaded before this runs.
+function t(key) {
+  const lang = localStorage.getItem("civicsAppLanguage") || "en";
+  const dict = (typeof TRANSLATIONS !== "undefined" && TRANSLATIONS[lang]) || {};
+  return dict[key] || key;
+}
+
 // Rebuilds <option value="all">All categories</option> + grouped
 // <optgroup> sections for whichever dataset is currently active.
 function buildCategoryOptions() {
@@ -165,7 +182,7 @@ function buildCategoryOptions() {
 
   const allOption = document.createElement("option");
   allOption.value = "all";
-  allOption.textContent = "All categories";
+  allOption.textContent = t("app.allCategories");
   categoryFilterEl.appendChild(allOption);
 
   const seenCategory = new Set();
@@ -342,8 +359,18 @@ function updateBookmarkButton(btnEl, id) {
 function renderFlashcard() {
   const list = state.baseList;
   state.isFlipped = false;
-  flashQuestionFaceEl.hidden = false;
-  flashAnswerFaceEl.hidden = true;
+
+  // Reset to the resting position (question showing) WITHOUT animating —
+  // only an explicit click on the card should trigger the slide. We
+  // briefly disable transitions, snap the classes back, then force the
+  // browser to "notice" before re-enabling transitions.
+  flashQuestionFaceEl.classList.add("no-anim");
+  flashAnswerFaceEl.classList.add("no-anim");
+  flashQuestionFaceEl.classList.remove("face-hidden-left");
+  flashAnswerFaceEl.classList.add("face-hidden-right");
+  void flashCardEl.offsetWidth; // force reflow
+  flashQuestionFaceEl.classList.remove("no-anim");
+  flashAnswerFaceEl.classList.remove("no-anim");
 
   if (list.length === 0) {
     questionTextEl.textContent = "No questions match this filter.";
@@ -357,14 +384,20 @@ function renderFlashcard() {
   answerListEl.innerHTML = q.answers.map((a) => `<li>${a}</li>`).join("");
   answerListEl.classList.toggle("answer-varies", !!q.varies);
   cardTagEl.textContent = `CARD ${String(state.cardIndex + 1).padStart(2, "0")}/${list.length}`;
-  updateBookmarkButton(flashBookmarkBtn, q.id);
 }
 
 function toggleFlashcardFace() {
   if (state.baseList.length === 0) return;
   state.isFlipped = !state.isFlipped;
-  flashQuestionFaceEl.hidden = state.isFlipped;
-  flashAnswerFaceEl.hidden = !state.isFlipped;
+  if (state.isFlipped) {
+    // slide the question out to the left, answer in from the right
+    flashQuestionFaceEl.classList.add("face-hidden-left");
+    flashAnswerFaceEl.classList.remove("face-hidden-right");
+  } else {
+    // slide back: answer exits right, question re-enters from the left
+    flashAnswerFaceEl.classList.add("face-hidden-right");
+    flashQuestionFaceEl.classList.remove("face-hidden-left");
+  }
 }
 
 function goToNextCard() {
@@ -397,7 +430,7 @@ function renderQuizQuestion() {
   userAnswerInputEl.value = "";
   answerRevealEl.hidden = true;
   correctAnswerListEl.innerHTML = "";
-  showAnswerBtn.textContent = "Show Answer";
+  showAnswerBtn.textContent = t("app.showAnswer");
 
   if (list.length === 0) {
     quizQuestionTextEl.textContent = "No questions match this filter.";
@@ -422,10 +455,10 @@ function toggleAnswer() {
     correctAnswerListEl.innerHTML = q.answers.map((a) => `<li>${a}</li>`).join("");
     correctAnswerListEl.classList.toggle("answer-varies", !!q.varies);
     answerRevealEl.hidden = false;
-    showAnswerBtn.textContent = "Hide Answer";
+    showAnswerBtn.textContent = t("app.hideAnswer");
   } else {
     answerRevealEl.hidden = true;
-    showAnswerBtn.textContent = "Show Answer";
+    showAnswerBtn.textContent = t("app.showAnswer");
   }
 }
 
@@ -502,11 +535,6 @@ flashCardEl.addEventListener("click", toggleFlashcardFace);
 prevCardBtn.addEventListener("click", goToPrevCard);
 nextCardBtn.addEventListener("click", goToNextCard);
 shuffleCardsBtn.addEventListener("click", shuffleDeck);
-flashBookmarkBtn.addEventListener("click", (e) => {
-  e.stopPropagation(); // don't also trigger the card's own click (flip)
-  const q = state.baseList[state.cardIndex];
-  if (q) toggleBookmark(q.id);
-});
 flashSpeakBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   const q = state.baseList[state.cardIndex];
@@ -548,4 +576,32 @@ document.addEventListener("keydown", (e) => {
 // STARTUP
 // Landing page is visible by default. Onboarding runs each time someone
 // clicks into Flashcard View or Quiz View (see startOnboarding()).
+// If arriving via a header nav link like index.html#flashcards or
+// index.html#quiz, jump straight into onboarding for that mode. We listen
+// for BOTH the initial page load AND "hashchange" — clicking a nav link
+// while already sitting on index.html doesn't reload the page, it just
+// changes the hash, so without the hashchange listener nothing happens.
 // =========================================================================
+function handleHashRouting() {
+  const hashMode = window.location.hash.replace("#", "");
+  if (hashMode === "flashcards" || hashMode === "quiz") {
+    startOnboarding(hashMode);
+    history.replaceState(null, "", window.location.pathname);
+  }
+}
+
+window.addEventListener("hashchange", handleHashRouting);
+handleHashRouting();
+
+// Refreshes JS-generated text (category dropdown, Show/Hide Answer label)
+// when the language is switched mid-session — see i18n.js.
+window.refreshAppLanguageDependentUI = function () {
+  if (!appShell.hidden) {
+    const currentValue = categoryFilterEl.value;
+    buildCategoryOptions();
+    categoryFilterEl.value = currentValue;
+    if (!quizModeEl.hidden) {
+      showAnswerBtn.textContent = state.quizRevealed ? t("app.hideAnswer") : t("app.showAnswer");
+    }
+  }
+};

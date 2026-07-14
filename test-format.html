@@ -19,11 +19,77 @@
 </head>
 <body>
 
-  <div class="content-page">
-    <a class="back-home" href="index.html">&larr; Back to Civics Test Practice</a>
+  <header class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-logo" href="index.html">
+        <img src="logo-icon.png" alt="" class="site-logo-icon" />
+        <span class="site-logo-text">Civics Test Practice</span>
+      </a>
 
+      <nav class="site-nav-links" id="siteNavLinks">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.studyTools">Study Tools</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html#flashcards" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.flashcards.title">Civics Flashcards</span>
+              <span class="nav-item-sub" data-i18n="nav.flashcards.sub">Master the questions with active recall</span>
+            </a>
+            <a href="index.html#quiz" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.quiz.title">Civics Quiz Mode</span>
+              <span class="nav-item-sub" data-i18n="nav.quiz.sub">Test your knowledge with mock exams</span>
+            </a>
+            <a href="english-practice.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.english.title">English Test Practice</span>
+              <span class="nav-item-sub" data-i18n="nav.english.sub">Practice official reading and writing vocabulary</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.resources">Resources &amp; Guides</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="process.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.process.title">Naturalization Process</span>
+              <span class="nav-item-sub" data-i18n="nav.process.sub">Step-by-step guide from N-400 to Oath</span>
+            </a>
+            <a href="test-format.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.testFormat.title">Test Format &amp; Rules</span>
+              <span class="nav-item-sub" data-i18n="nav.testFormat.sub">Understand passing scores, test formats, and exemptions</span>
+            </a>
+            <a href="resources.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.officialResources.title">Official USCIS Resources</span>
+              <span class="nav-item-sub" data-i18n="nav.officialResources.sub">Access official study booklets and materials</span>
+            </a>
+            <a href="faq.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.faq.title">FAQ</span>
+              <span class="nav-item-sub" data-i18n="nav.faq.sub">Quick answers to common citizenship test questions</span>
+            </a>
+          </div>
+        </div>
+
+        <a class="nav-simple-link" href="about.html" data-i18n="nav.about">About</a>
+      </nav>
+
+      <div class="site-nav-right">
+        <select id="languageSelect" class="lang-select" aria-label="Choose language">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+
+      <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="content-page">
     <h1>What Is the Format of the U.S. Citizenship Test?</h1>
-    <p class="updated-note">Last updated July 2026 &mdash; based on the USCIS Policy Manual, Volume 12, Part E</p>
+    <p class="updated-note">Last updated July 2026</p>
 
     <p>The U.S. Naturalization Test is <strong>not</strong> a written, multiple-choice exam. It's an in-person, oral interview conducted by a USCIS officer.</p>
     <p>To pass and become a U.S. citizen, you must pass two main components during your interview: <strong>the Civics Test</strong> and <strong>the English Test</strong>.</p>
@@ -76,6 +142,32 @@
 
     <p>Want to practice the vocabulary used in the reading and writing tests? Visit <a href="english-practice.html">English Test Practice</a>.</p>
 
+    <h2>&#128161; Official Exceptions &amp; Waivers</h2>
+    <p>Per the <a href="https://www.uscis.gov/policy-manual/volume-12-part-e-chapter-2" target="_blank" rel="noopener">USCIS Policy Manual</a>, certain applicants qualify for age and residency exemptions or medical waivers &mdash; on top of the 65/20 rule already covered above.</p>
+
+    <h3>1. Age &amp; Residency Exceptions (the &ldquo;50/20&rdquo; and &ldquo;55/15&rdquo; Rules)</h3>
+    <p>You may be completely exempt from the <strong>English test</strong> (speaking, reading, and writing) if you meet either of these at the time you file your N-400:</p>
+    <ul>
+      <li><strong>&ldquo;50/20&rdquo; Rule:</strong> Age 50 or older, and a lawful permanent resident (Green Card holder) for at least 20 years.</li>
+      <li><strong>&ldquo;55/15&rdquo; Rule:</strong> Age 55 or older, and a lawful permanent resident for at least 15 years.</li>
+    </ul>
+    <p>You still take the <strong>civics test</strong> if you qualify for either of these &mdash; but you're permitted to take it in your native language, with an interpreter you bring yourself.</p>
+
+    <h3>2. Special Consideration (the &ldquo;65/20&rdquo; Rule)</h3>
+    <p><strong>Who qualifies:</strong> Age 65 or older, and a lawful permanent resident for at least 20 years at the time of filing.</p>
+    <p><strong>The benefit:</strong> Complete exemption from the English test, <em>plus</em> a simplified civics test &mdash; instead of the full 100 or 128 questions, you only need to study a designated list of 20 questions. You'll be asked up to 10, and need only 6 correct to pass. An interpreter is allowed here too.</p>
+
+    <h3>3. Medical Disability Exception (Form N-648)</h3>
+    <p>If a physical or developmental disability or mental impairment prevents you from learning or demonstrating knowledge of English and/or civics, you may request a full or partial waiver.</p>
+    <ul>
+      <li><strong>Requirement:</strong> A licensed medical or osteopathic doctor, or a licensed clinical psychologist, must complete and submit Form N-648 (Medical Certification for Disability Exceptions) on your behalf.</li>
+      <li><strong>The benefit:</strong> Depending on the severity of the condition, you may be exempt from the English test, the civics test, or both.</li>
+    </ul>
+
+    <div class="callout">
+      These exceptions apply to <strong>both</strong> the 2008 and 2025 versions of the civics test &mdash; your filing date still determines which question bank you study from, the exceptions above just change how (or whether) the English test applies, and how much of the civics bank you need to know.
+    </div>
+
     <h2>&#128260; What Happens if You Don't Pass?</h2>
     <p>Don't worry &mdash; failing a portion of the test doesn't mean your application is rejected or that you have to pay the fee again.</p>
     <ul>
@@ -83,21 +175,19 @@
       <li><strong>Only retake what you missed:</strong> You're only re-tested on the exact section you didn't pass. For example, if you passed the English portion but missed the civics test, you'll only retake the civics test on your second visit.</li>
     </ul>
 
-    <p class="source-note">Source: <a href="https://www.uscis.gov/policy-manual/volume-12-part-e-chapter-2" target="_blank" rel="noopener">USCIS Policy Manual, Volume 12, Part E, Chapter 2</a></p>
+    <p class="source-note">Source: <a href="https://www.uscis.gov/citizenship/learn-about-citizenship/the-naturalization-interview-and-test" target="_blank" rel="noopener">The Naturalization Interview and Test
+</a></p>
   </div>
 
   <footer class="site-footer">
     <nav class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="faq.html">FAQ</a>
-      <a href="process.html">Naturalization Process</a>
-      <a href="english-practice.html">English Test Practice</a>
-      <a href="resources.html">Official Resources</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="contact.html">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
     </nav>
+      <p>Questions, official answers, and naturalization resources are compiled directly from the <a href="https://www.uscis.gov/citizenship" target="_blank" rel="noopener">USCIS website</a>. This is an independent educational and study tool and is not affiliated with USCIS or the U.S. government.</p>
   </footer>
 
+  <script src="i18n.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

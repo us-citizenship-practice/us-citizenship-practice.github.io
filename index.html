@@ -21,6 +21,74 @@
 </head>
 <body>
 
+  <header class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-logo" href="index.html">
+        <img src="logo-icon.png" alt="" class="site-logo-icon" />
+        <span class="site-logo-text">Civics Test Practice</span>
+      </a>
+
+      <nav class="site-nav-links" id="siteNavLinks">
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.studyTools">Study Tools</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html#flashcards" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.flashcards.title">Civics Flashcards</span>
+              <span class="nav-item-sub" data-i18n="nav.flashcards.sub">Master the questions with active recall</span>
+            </a>
+            <a href="index.html#quiz" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.quiz.title">Civics Quiz Mode</span>
+              <span class="nav-item-sub" data-i18n="nav.quiz.sub">Test your knowledge with mock exams</span>
+            </a>
+            <a href="english-practice.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.english.title">English Test Practice</span>
+              <span class="nav-item-sub" data-i18n="nav.english.sub">Practice official reading and writing vocabulary</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+            <span data-i18n="nav.resources">Resources &amp; Guides</span> <span class="nav-caret">&#9662;</span>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="process.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.process.title">Naturalization Process</span>
+              <span class="nav-item-sub" data-i18n="nav.process.sub">Step-by-step guide from N-400 to Oath</span>
+            </a>
+            <a href="test-format.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.testFormat.title">Test Format &amp; Rules</span>
+              <span class="nav-item-sub" data-i18n="nav.testFormat.sub">Understand passing scores, test formats, and exemptions</span>
+            </a>
+            <a href="resources.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.officialResources.title">Official USCIS Resources</span>
+              <span class="nav-item-sub" data-i18n="nav.officialResources.sub">Access official study booklets and materials</span>
+            </a>
+            <a href="faq.html" class="nav-dropdown-item">
+              <span class="nav-item-title" data-i18n="nav.faq.title">FAQ</span>
+              <span class="nav-item-sub" data-i18n="nav.faq.sub">Quick answers to common citizenship test questions</span>
+            </a>
+          </div>
+        </div>
+
+        <a class="nav-simple-link" href="about.html" data-i18n="nav.about">About</a>
+      </nav>
+
+      <div class="site-nav-right">
+        <select id="languageSelect" class="lang-select" aria-label="Choose language">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+        </select>
+      </div>
+
+      <button class="nav-hamburger" id="navHamburger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
   <!-- ============================================================
        ONBOARDING — always shown first. Determines which test
        version (2008 or 2025) and whether 65/20 applies, before
@@ -28,49 +96,51 @@
        ============================================================ -->
   <div id="onboardStep1" class="view onboard-view" hidden>
     <div class="onboard-card">
-      <span class="onboard-eyebrow">Step 1 of 2</span>
-      <h1>A couple quick questions first</h1>
+      <span class="onboard-eyebrow" data-i18n="onboard.step1.eyebrow">Step 1 of 2</span>
+      <div class="onboard-progress"><div class="onboard-progress-fill" style="width:50%"></div></div>
+      <h1 data-i18n="onboard.step1.title">A couple quick questions first</h1>
 
       <label class="onboard-field">
-        <span>How old are you?</span>
+        <span data-i18n="onboard.ageLabel">How old are you?</span>
         <input type="number" id="ageInput" min="0" max="120" placeholder="e.g. 42" />
       </label>
 
       <label class="onboard-field">
-        <span>How many years have you been a lawful permanent resident (green card holder)?</span>
+        <span data-i18n="onboard.lprLabel">How many years have you been a lawful permanent resident (green card holder)?</span>
         <input type="number" id="lprYearsInput" min="0" max="100" placeholder="e.g. 5" />
       </label>
 
-      <div class="onboard-why">
+      <div class="onboard-why" data-i18n-html="onboard.step1.why">
         <strong>Why we ask:</strong> If you're 65 or older and have been a permanent
         resident for 20+ years, USCIS lets you study a shorter list of just 20
         questions instead of the full test &mdash; this is called the &ldquo;65/20&rdquo; rule.
       </div>
 
-      <p class="onboard-error" id="step1Error" hidden>Please fill in both fields.</p>
-      <button id="onboardNext1" class="btn btn-dark" type="button">Continue &rarr;</button>
+      <p class="onboard-error" id="step1Error" hidden data-i18n="onboard.step1.error">Please fill in both fields.</p>
+      <button id="onboardNext1" class="btn btn-dark" type="button" data-i18n="onboard.continue">Continue &rarr;</button>
     </div>
   </div>
 
   <div id="onboardStep2" class="view onboard-view" hidden>
     <div class="onboard-card">
-      <span class="onboard-eyebrow">Step 2 of 2</span>
-      <h1>When did you file (or plan to file) Form N-400?</h1>
+      <span class="onboard-eyebrow" data-i18n="onboard.step2.eyebrow">Step 2 of 2</span>
+      <div class="onboard-progress"><div class="onboard-progress-fill" style="width:100%"></div></div>
+      <h1 data-i18n="onboard.step2.title">When did you file (or plan to file) Form N-400?</h1>
 
       <label class="onboard-field">
-        <span>Filing date</span>
+        <span data-i18n="onboard.filingDateLabel">Filing date</span>
         <input type="date" id="filingDateInput" />
       </label>
 
-      <div class="onboard-why">
+      <div class="onboard-why" data-i18n-html="onboard.step2.why">
         <strong>Why we ask:</strong> Your test version depends on your <em>filing</em>
         date, not your interview date. If you filed before October 20, 2025,
         you'll take the 2008 test (100 questions). On or after that date,
         you'll take the 2025 test (128 questions).
       </div>
 
-      <p class="onboard-error" id="step2Error" hidden>Please select a date.</p>
-      <button id="onboardNext2" class="btn btn-dark" type="button">Start Studying &rarr;</button>
+      <p class="onboard-error" id="step2Error" hidden data-i18n="onboard.step2.error">Please select a date.</p>
+      <button id="onboardNext2" class="btn btn-dark" type="button" data-i18n="onboard.startStudying">Start Studying &rarr;</button>
     </div>
   </div>
 
@@ -80,11 +150,11 @@
   <div id="landingView" class="view">
     <div class="landing-inner">
       <div class="landing-copy">
-        <h1>Welcome to<br>Civics Test<br>Practice</h1>
-        <p class="landing-tagline">Free study tool for the U.S. naturalization civics test</p>
+        <h1 data-i18n-html="landing.headline">Welcome to<br>Civics Test<br>Practice</h1>
+        <p class="landing-tagline" data-i18n="landing.tagline">Free study tool for the U.S. naturalization civics test</p>
         <div class="landing-buttons">
-          <button id="goFlashcards" class="btn btn-outline landing-btn" type="button">Flashcard View</button>
-          <button id="goQuiz" class="btn btn-outline landing-btn" type="button">Quiz View</button>
+          <button id="goFlashcards" class="btn btn-outline landing-btn" type="button" data-i18n="landing.flashcardBtn">Flashcard View</button>
+          <button id="goQuiz" class="btn btn-outline landing-btn" type="button" data-i18n="landing.quizBtn">Quiz View</button>
         </div>
       </div>
 
@@ -99,8 +169,8 @@
        ============================================================ -->
   <div id="appShell" class="view" hidden>
 
-    <header class="app-topbar">
-      <button id="homeBtn" class="icon-btn" type="button">&larr; Home</button>
+    <header class="app-topbar" hidden>
+      <button id="homeBtn" class="icon-btn" type="button" data-i18n="app.homeBtn">&larr; Home</button>
 
       <div class="topbar-controls">
         <span class="version-badge" id="versionBadge"></span>
@@ -118,26 +188,27 @@
     <section id="flashcardMode" class="mode-panel" hidden>
 
       <div class="static-card" id="flashCard">
-        <div class="card-face" id="flashQuestionFace">
-          <span class="tag" id="cardTag">CARD 01/128</span>
-          <p class="big-text" id="questionText">Loading&hellip;</p>
-        </div>
+        <span class="tag" id="cardTag">CARD 01/128</span>
 
-        <div class="card-face" id="flashAnswerFace" hidden>
-          <span class="eyebrow">Answer</span>
-          <ul class="answer-list" id="answerList"></ul>
+        <div class="card-face-viewport">
+          <div class="card-face" id="flashQuestionFace">
+            <p class="big-text" id="questionText">Loading&hellip;</p>
+          </div>
+
+          <div class="card-face card-face-answer face-hidden-right" id="flashAnswerFace">
+            <span class="eyebrow" data-i18n="app.answer">Answer</span>
+            <ul class="answer-list" id="answerList"></ul>
+          </div>
         </div>
 
         <button class="speak-btn" id="flashSpeakBtn"
                 type="button" aria-label="Read this aloud">&#128266;</button>
-        <button class="bookmark-btn" id="flashBookmarkBtn"
-                type="button" aria-label="Bookmark this question">&#9734;</button>
       </div>
 
       <div class="deck-controls">
-        <button id="prevCard" class="btn btn-gray nav-btn" type="button">&larr; Previous</button>
-        <button id="shuffleCards" class="btn btn-outline" type="button">Shuffle</button>
-        <button id="nextCard" class="btn btn-gray nav-btn" type="button">Next &rarr;</button>
+        <button id="prevCard" class="btn btn-gray nav-btn" type="button" data-i18n="app.previous">&larr; Previous</button>
+        <button id="shuffleCards" class="btn btn-outline" type="button" data-i18n="app.shuffle">Shuffle</button>
+        <button id="nextCard" class="btn btn-gray nav-btn" type="button" data-i18n="app.next">Next &rarr;</button>
       </div>
     </section>
 
@@ -155,14 +226,14 @@
         </div>
 
         <div class="a-card">
-          <span class="eyebrow">Answer</span>
-          <textarea id="userAnswerInput" class="answer-input" placeholder="Type your answer here&hellip;"></textarea>
+          <span class="eyebrow" data-i18n="app.answer">Answer</span>
+          <textarea id="userAnswerInput" class="answer-input" placeholder="Type your answer here&hellip;" data-i18n-placeholder="app.answerPlaceholder"></textarea>
 
-          <button id="showAnswerBtn" class="btn btn-gray" type="button">Show Answer</button>
+          <button id="showAnswerBtn" class="btn btn-gray" type="button" data-i18n="app.showAnswer">Show Answer</button>
 
           <div class="answer-reveal" id="answerReveal" hidden>
             <div class="answer-reveal-header">
-              <span class="eyebrow">Correct Answer</span>
+              <span class="eyebrow" data-i18n="app.correctAnswer">Correct Answer</span>
               <button class="speak-btn speak-btn-inline" id="answerSpeakBtn" type="button" aria-label="Read the answer aloud">&#128266;</button>
             </div>
             <ul id="correctAnswerList"></ul>
@@ -171,9 +242,9 @@
       </div>
 
       <div class="deck-controls">
-        <button id="prevQuizBtn" class="btn btn-gray nav-btn" type="button">&larr; Previous</button>
-        <button id="shuffleQuizBtn" class="btn btn-outline" type="button">Shuffle</button>
-        <button id="nextQuizBtn" class="btn btn-gray nav-btn" type="button">Next &rarr;</button>
+        <button id="prevQuizBtn" class="btn btn-gray nav-btn" type="button" data-i18n="app.previous">&larr; Previous</button>
+        <button id="shuffleQuizBtn" class="btn btn-outline" type="button" data-i18n="app.shuffle">Shuffle</button>
+        <button id="nextQuizBtn" class="btn btn-gray nav-btn" type="button" data-i18n="app.next">Next &rarr;</button>
       </div>
     </section>
 
@@ -205,20 +276,16 @@
 
   <footer class="site-footer">
     <nav class="footer-links">
-      <a href="faq.html">FAQ</a>
-      <a href="test-format.html">Test Format</a>
-      <a href="process.html">Naturalization Process</a>
-      <a href="english-practice.html">English Test Practice</a>
-      <a href="resources.html">Official Resources</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="contact.html">Contact</a>
+      <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+      <a href="contact.html" data-i18n="footer.contact">Contact</a>
     </nav>
-    <p>Questions and official answers are from USCIS Form M-1778 (09/25) and the 2008 civics test materials. This is an independent study tool and is not affiliated with USCIS or the U.S. government.</p>
+    <p>Questions, official answers, and naturalization resources are compiled directly from the <a href="https://www.uscis.gov/citizenship" target="_blank" rel="noopener">USCIS website</a>. This is an independent educational and study tool and is not affiliated with USCIS or the U.S. government.</p>
   </footer>
 
   <script src="data-2025.js"></script>
   <script src="data-2008.js"></script>
   <script src="script.js"></script>
+  <script src="i18n.js"></script>
+  <script src="nav.js"></script>
 </body>
 </html>

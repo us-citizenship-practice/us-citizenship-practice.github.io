@@ -9,6 +9,7 @@
   --gray-fill: #E9E9E9;
   --good: #3A6B3A;
   --bad: #A3312A;
+  --navy: #16305C;
   --border-w: 2.5px;
   --radius-lg: 22px;
   --radius-pill: 999px;
@@ -130,6 +131,21 @@ button, textarea { font-family: var(--font); }
   margin-bottom: 0.6rem;
 }
 
+.onboard-progress {
+  width: 100%;
+  height: 8px;
+  background: var(--bg);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.onboard-progress-fill {
+  height: 100%;
+  background: var(--navy, var(--ink));
+  border-radius: var(--radius-pill);
+  transition: width 0.4s ease;
+}
+
 .onboard-card h1 {
   font-size: 1.6rem;
   font-weight: 800;
@@ -159,16 +175,17 @@ button, textarea { font-family: var(--font); }
 .onboard-field input:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
 .onboard-why {
-  background: #F3EEDF;
-  border-left: 3px solid var(--gold, #A9822E);
-  border-radius: 8px;
-  padding: 0.9rem 1rem;
+  background: #EAF1FE;
+  border: 1.5px solid #C7D9F7;
+  border-left: 4px solid var(--navy, #A9822E);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--ink-soft);
   margin-bottom: 1.5rem;
 }
-.onboard-why strong { color: var(--ink); }
+.onboard-why strong { color: var(--navy); }
 
 .onboard-error {
   color: var(--bad);
@@ -180,7 +197,7 @@ button, textarea { font-family: var(--font); }
 /* =========================================================================
    APP SHELL / TOPBAR
    ========================================================================= */
-#appShell { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem 3rem; }
+#appShell { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 3rem; }
 
 .app-topbar {
   display: flex;
@@ -190,6 +207,7 @@ button, textarea { font-family: var(--font); }
   gap: 1rem;
   margin-bottom: 2rem;
 }
+.app-topbar-no-home { justify-content: flex-end; }
 
 .icon-btn {
   border: var(--border-w) solid var(--ink);
@@ -235,23 +253,11 @@ button, textarea { font-family: var(--font); }
 /* =========================================================================
    SHARED CARD PIECES
    ========================================================================= */
-.tag {
-  position: absolute;
-  top: -18px;
-  left: 24px;
-  background: var(--card-bg);
-  border: var(--border-w) solid var(--ink);
-  border-radius: var(--radius-pill);
-  padding: 0.35rem 0.9rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
 .bookmark-btn {
   position: absolute;
   bottom: 18px;
   right: 22px;
+  z-index: 2;
   background: none;
   border: none;
   font-size: 2.2rem;
@@ -269,6 +275,7 @@ button, textarea { font-family: var(--font); }
   position: absolute;
   top: 18px;
   right: 22px;
+  z-index: 2;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -316,14 +323,52 @@ button, textarea { font-family: var(--font); }
   border: var(--border-w) solid var(--ink);
   border-radius: var(--radius-lg);
   background: var(--card-bg);
-  min-height: 340px;
+  box-shadow: 0 14px 34px rgba(22, 48, 92, 0.16);
+  height: 340px;
   padding: 2.5rem 2.25rem 3.25rem;
   cursor: pointer;
+  overflow: visible; /* let the tag badge overflow above the border */
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.card-face { width: 100%; }
+.tag {
+  position: absolute;
+  top: -18px;
+  left: 24px;
+  z-index: 2;
+  background: var(--card-bg);
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* Only the flashcard's two sliding faces need their own clipped viewport —
+   everything else in .static-card (the tag badge, speak/bookmark buttons)
+   stays outside it so they're never clipped. */
+.card-face-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  padding: 2.5rem 2.25rem 3.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0.1, 0.2, 1), opacity 0.3s ease;
+}
+.card-face.face-hidden-left { transform: translateX(-100%); opacity: 0; pointer-events: none; }
+.card-face.face-hidden-right { transform: translateX(100%); opacity: 0; pointer-events: none; }
+.card-face.no-anim { transition: none !important; }
 
 .answer-list {
   list-style: none;
@@ -419,6 +464,7 @@ button, textarea { font-family: var(--font); }
   font-size: 0.8rem;
   line-height: 1.5;
 }
+.site-footer p a { color: #5A6478; font-weight: 700; text-decoration: underline; }
 
 .footer-links {
   display: flex;
@@ -529,6 +575,223 @@ button, textarea { font-family: var(--font); }
 @media (max-width: 760px) {
   .landing-copy h1 { font-size: 2.3rem; }
   .quiz-columns { grid-template-columns: 1fr; }
-  .static-card { min-height: 280px; }
+  .static-card { height: 300px; }
   .big-text { font-size: 1.3rem; }
+}
+
+/* =========================================================================
+   SITE HEADER / NAVIGATION
+   Appears at the top of every page. Logo doubles as the home link (no
+   separate "Home" nav item) per the site's navigation spec.
+   ========================================================================= */
+.site-nav {
+  background: var(--card-bg);
+  border-bottom: 2px solid var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--navy);
+  margin-right: auto;
+  transition: opacity 0.2s ease;
+}
+.site-logo:hover { opacity: 0.75; }
+.site-logo-icon { height: 34px; width: auto; display: block; }
+.site-logo-text {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.site-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-simple-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-simple-link:hover { background: var(--bg); color: var(--navy); }
+
+/* ---- Dropdowns ---- */
+.nav-dropdown { position: relative; }
+
+.nav-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-dropdown-trigger:hover { background: var(--bg); color: var(--navy); }
+
+.nav-caret {
+  font-size: 0.65rem;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.nav-dropdown.is-open .nav-caret { transform: rotate(180deg); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 320px;
+  background: var(--card-bg);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(22, 48, 92, 0.18);
+  border: 1px solid rgba(22, 48, 92, 0.08);
+  padding: 0.6rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.nav-dropdown.is-open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-dropdown-item {
+  display: block;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.2s ease;
+}
+.nav-dropdown-item:hover { background: var(--bg); }
+
+.nav-item-title {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 0.15rem;
+}
+.nav-item-sub {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+.site-nav-right { display: flex; align-items: center; }
+.lang-select {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-pill);
+  border: var(--border-w) solid var(--navy);
+  background: var(--card-bg);
+  color: var(--navy);
+  cursor: pointer;
+}
+.nav-cta {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ---- Mobile hamburger ---- */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-hamburger span {
+  display: block;
+  height: 2.5px;
+  width: 24px;
+  background: var(--navy);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.nav-hamburger.is-open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .nav-hamburger { display: flex; }
+
+  .site-nav-links {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--card-bg);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 1rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+  .site-nav-links.is-open { transform: translateX(0); }
+
+  .nav-simple-link, .nav-dropdown-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--bg);
+    border-radius: 0;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    border: none;
+    min-width: 0;
+    width: 100%;
+    display: none;
+    padding: 0 0 0.5rem 1rem;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  .nav-dropdown.is-open .nav-dropdown-menu { display: block; }
+
+  .site-nav-right { margin-right: 0.25rem; }
 }
